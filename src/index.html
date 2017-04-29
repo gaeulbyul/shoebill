@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="UTF-8">
+  <title>Project Shoebill</title>
+  <link rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+  crossorigin="anonymous">
+  <style>
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #tweetdeck {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      transition: transform .3s;
+    }
+    /*
+    #top-bar {
+      display: none;
+      padding: 10px;
+      width: 100vw;
+      height: 100px;
+      background-color: black;
+      transform: translateY(-100px);
+    }
+    #bottom-bar {
+      padding: 10px;
+      width: 100vw;
+      height: 100px;
+      background-color: black;
+    }
+    */
+    .area-y {
+      display: inline-flex;
+      margin: 0;
+      transition: transform .3s;
+    }
+    .edge-bar {
+      margin: 0;
+      transition: transform .3s;
+    }
+    body.show-left-bar #tweetdeck,
+    body.show-left-bar #left-bar {
+      transform: translateX(320px);
+    }
+    body.show-right-bar #tweetdeck,
+    body.show-right-bar #right-bar {
+      transform: translateX(-320px);
+    }
+    body.show-bottom-bar #main,
+    body.show-bottom-bar #bottom-bar {
+      transform: translateY(-100px);
+    }
+  </style>
+  <style>
+    .toast-container {
+      position: fixed;
+      top: 10px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      max-width: 600px;
+      overflow: hidden;
+    }
+    .toast {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 15px;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+      border-left: 10px solid cornflowerblue;
+      box-shadow: 0 5px 5px rgba(66, 66, 66, .6);
+      animation: slideDown .3s;
+    }
+    .toast > div {
+      margin: 0;
+      padding: 10px;
+    }
+    .toast .text {
+      flex: 1;
+      font-size: 12pt;
+      font-family: 'SpoqaHanSans', sans-serif;
+      word-break: keep-all;
+    }
+    .toast .close {
+      cursor: pointer;
+    }
+    .toast.hiding {
+      animation:  toastHide .3s;
+    }
+    @keyframes slideDown {
+      from {
+        transform: translateY(-300px);
+      }
+      to {
+        transform: none;
+      }
+    }
+    @keyframes toastHide {
+      from {
+        transform: scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: scale(0);
+        opacity: 0;
+        display: none;
+      }
+    }
+  </style>
+</head><body>
+  <!--
+  <webview id="tweetdeck" preload="./preload-tweetdeck.js" src="https://tweetdeck.twitter.com"></webview>
+  <webview id="tweetdeck" src="about:blank" nodeintegration></webview>
+  -->
+  <div class="area-y" id="main">
+    <div class="edge-bar" id="left-bar"></div>
+      <webview id="tweetdeck" allowpopups
+      preload="./preload-tweetdeck.js"
+      src="https://tweetdeck.twitter.com"></webview>
+    <div class="edge-bar" id="right-bar"></div>
+  </div>
+  <div class="area-y" id="bottom-bar">
+  </div>
+  <div class="toast-container">
+  </div>
+  <script src="./renderer.js"></script>
+</body></html>

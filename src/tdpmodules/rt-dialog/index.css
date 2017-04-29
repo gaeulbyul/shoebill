@@ -1,0 +1,90 @@
+.xrt-dialog-wrapper {
+  position: fixed;
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, .9);
+}
+.xrt-dialog {
+  /*
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  */
+  margin: auto;
+  padding: 10px;
+  width: 100%;
+  min-width: 400px;
+  max-width: 600px;
+  min-height: 100px;
+  max-height: 800px;
+  overflow-y: auto;
+  color: #333;
+  font-size: 14px;
+  background-color: #fff;
+  border-radius: 5px;
+  display: none;
+  opacity: 0;
+}
+.xrt-dialog.visible {
+  display: block;
+  opacity: 1;
+  animation: xrtAppear .5s;
+}
+@keyframes xrtAppear {
+  from {
+    display: none;
+    opacity: 0;
+  }
+  to {
+    display: block;
+    opacity: 1;
+  }
+}
+.xrt-target-tweet {
+  padding: 7px 10px;
+  border: 1px solid #ccc;
+}
+.xrt-target-tweet .user {
+  font-weight: bold;
+  color: #000;
+}
+.xrt-account {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.xrt-account .xrt-username {
+  flex-grow: 1;
+}
+.xrt-buttons {
+  padding: 5px 0;
+}
+.xrt-button {
+  margin: 3px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 3px;
+  background-color: #eaeaea;
+  color: #333;
+}
+.xrt-button.xrt-button-rt,
+.xrt-button.xrt-open-original-rt {
+  background-color: #50a5e6;
+  color: #fff;
+}
+
+.xrt-bottom-buttons {
+  text-align: right;
+  padding: 5px 0;
+  border-top: 1px solid #ccc;
+}

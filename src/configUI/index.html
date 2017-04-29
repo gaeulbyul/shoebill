@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko"><head>
+  <meta charset="UTF-8">
+  <title>설정 &ndash; Shoebill</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/element-ui/1.2.9/theme-default/index.css" integrity="sha256-f8WH1nrCDsUXg+w/3pKejqK9mD1cOHC2AKUpWtZCw2E=" crossorigin="anonymous" />
+  <style>
+body {
+  background-color: white;
+  margin: 20px;
+  font-family: sans-serif;
+}
+.description {
+  padding: 5px 7px;
+  border: 1px solid #cfdbe9;
+  border-radius:  3px;
+  color: #48576a;
+  font-size: 12px;
+}
+  </style>
+</head><body>
+  <div id="app">
+    <el-row type="flex" justify="center">
+      <el-col :span="24">
+        <el-alert type="info"
+        title="설정 변경 후 트윗덱 창을 *새로고침 (Ctrl+R)* 하면 적용됩니다."
+        description="변경된 설정은 자동으로 저장됩니다."></el-alert>
+      </el-col>
+    </el-row>
+    <el-form ref="config" :model="config"
+    label-position="left"
+    label-width="240px">
+      <el-row type="flex" justify="center">
+        <el-col :span="24">
+          <div class="grid-content">
+            <h1>트윗 보기</h1>
+            <h3>글</h3>
+            <el-form-item label="글꼴 변경">
+              <el-input v-model="config.font"></el-input>
+            </el-form-item>
+            <h3>미디어</h3>
+            <el-form-item label="자체 이미지뷰어 사용">
+              <el-switch v-model="config.useImageViewer" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="이미지뷰어 해상도 설정">
+              <el-radio-group v-model="config.imageViewerSize" :disabled="!config.useImageViewer">
+                <el-radio label="small">저해상도 (로딩속도 빠름)</el-radio>
+                <el-radio label="original">원본</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="타임라인 저해상도 이미지모드">
+              <el-tooltip content="로딩 속도를 개선하기 위해 타임라인상의 이미지를 저해상도로 로딩합니다.">
+                <el-switch v-model="config.useThumbOnTimeline" on-text="" off-text=""></el-switch>
+              </el-tooltip>
+            </el-form-item>
+            <el-form-item label="GIF 자동재생">
+              <el-select v-model="config.gifAutoplay" placeholder="(기본값: 자동재생)">
+                <el-option label="자동재생 (기본값)" value="default"></el-option>
+                <el-option label="클릭하여 재생" value="click"></el-option>
+                <el-option label="마우스를 가리켜 재생" value="mousehover"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" justify="center">
+        <el-col :span="24">
+          <div class="grid-content">
+            <h1>리트윗 / 마음글</h1>
+            <h3>리트윗</h3>
+            <el-form-item label="자체 RT 대화상자 사용">
+              <el-switch v-model="config.useAltRT" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <h3>마음글</h3>
+            <el-form-item label="마음글 이미지 자동저장 사용">
+              <el-switch disabled v-model="config.useFavoriteAutoSave" on-text="" off-text=""></el-switch>
+              <el-tag type="danger">미구현</el-tag>
+            </el-form-item>
+            <el-form-item>
+              <el-button>저장경로 설정</el-button>
+            </el-form-item>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" justify="center">
+        <el-col :span="24">
+          <div class="grid-content">
+            <h1>트윗 작성</h1>
+            <el-form-item label="자체 이미지 업로더 사용">
+              <el-switch disabled v-model="config.useImagePicker" on-text="" off-text=""></el-switch>
+              <el-tag type="danger">미구현</el-tag>
+            </el-form-item>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" justify="center">
+        <el-col :span="24">
+          <div class="grid-content">
+            <h1>필터링</h1>
+            <h3>단어 필터링</h3>
+            <el-form-item label="단어 목록">
+              <el-tooltip content="입력한 단어는 대/소문자를 구분하지 않고 적용됩니다.">
+                <el-input type="textarea" v-model="config._filterWords" :rows="5" placeholder="한 줄에 한 단어씩"></el-input>
+              </el-tooltip>
+            </el-form-item>
+            <!--
+            <el-table stripe style="width: 100%"
+            :data="config.filters"
+            empty-text="필터가 없습니다.">
+              <el-table-column prop="word" label="단어"></el-table-column>
+              <el-table-column prop="type" label="종류"></el-table-column>
+            </el-table>
+            -->
+            <el-form-item label="단어를 정규식으로 사용">
+              <el-switch v-model="config.filterAsRegExp" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="사용자 닉네임에도 적용">
+              <el-switch v-model="config.filterApplyToUserName" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="사용자 프로필(자기소개)에도 적용">
+              <el-switch v-model="config.filterApplyToUserBio" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <h3>특수 필터</h3>
+            <el-form-item label="내가 블락한 유저의 트윗 필터링">
+              <el-switch v-model="config.filterBlockedTweet" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="내가 블락한 유저의 리트윗 필터링">
+              <el-switch v-model="config.filterBlockedRT" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="보이지 않는 인용트윗 필터링">
+              <el-switch v-model="config.filterUnavailableQuote" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="5글자 이하 트윗 필터링">
+              <el-switch v-model="config.filterUnder5" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="10줄 이상 트윗 필터링">
+              <el-switch disabled v-model="config.filterOver10Line" on-text="" off-text=""></el-switch>
+              <el-tag type="danger">미구현</el-tag>
+            </el-form-item>
+            <h3>단일 트윗 필터</h3>
+            <el-tag type="danger">미구현</el-tag>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" justify="center">
+        <el-col :span="24">
+          <div class="grid-content">
+            <h1>특수 기능</h1>
+            <el-tag type="danger">미구현</el-tag>
+            <br>
+            <el-button disabled type="primary" size="large" icon="delete">캐시 비우기</el-button>
+            <el-button disabled type="danger" size="large" icon="close">모든 설정 초기화</el-button>
+          </div>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js" integrity="sha256-y7jbBn/+Rv8oBcyldVdzrzgKWajM/ERjr4u5r3QKdNo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/1.2.9/index.js" integrity="sha256-LYzcQtsQi8v4xrHmzogpaHUiHM6X94gEg9nozJnxgGY=" crossorigin="anonymous"></script>
+  <script src="./configUI.js"></script>
+</body></html>

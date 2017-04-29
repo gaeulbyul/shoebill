@@ -1,0 +1,74 @@
+
+.xip-dialog-wrapper {
+  position: fixed;
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, .9);
+}
+.xip-dialog {
+  /*
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  */
+  margin: auto;
+  padding: 10px;
+  width: 100%;
+  min-width: 400px;
+  max-width: 600px;
+  min-height: 100px;
+  max-height: 800px;
+  overflow-y: auto;
+  color: #333;
+  font-size: 14px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.xip-target-tweet {
+  padding: 7px 10px;
+  border: 1px solid #ccc;
+}
+.xip-target-tweet .user {
+  font-weight: bold;
+  color: #000;
+}
+.xip-account {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.xip-account .xip-username {
+  flex-grow: 1;
+}
+.xip-buttons {
+  padding: 5px 0;
+}
+.xip-button {
+  margin: 3px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 3px;
+  background-color: #eaeaea;
+  color: #333;
+}
+.xip-button.xip-button-rt,
+.xip-button.xip-open-original-rt {
+  background-color: #50a5e6;
+  color: #fff;
+}
+
+.xip-bottom-buttons {
+  text-align: right;
+  padding: 5px 0;
+  border-top: 1px solid #ccc;
+}

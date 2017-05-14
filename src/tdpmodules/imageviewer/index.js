@@ -60,6 +60,11 @@ class TDPImageViewer {
     image.addEventListener('click', event => {
       this.circleNext();
     });
+    image.addEventListener('error', event => {
+      API.toastMessage('이미지 {{ url }} 로딩 중에 오류가 발생했습니다!', {
+        url: image.src,
+      });
+    });
     toolbar.querySelector('.tiv-btn-prev').addEventListener('click', event => {
       event.preventDefault();
       this.prev();

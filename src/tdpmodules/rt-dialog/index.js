@@ -50,7 +50,7 @@ class RTDialog {
   update (tweet) {
     const dialog = this.dialog;
     this.tweet = tweet;
-    const originalTweet = tweet.retweetedStatus || tweet;
+    const originalTweet = tweet.getMainTweet();
     const tweetUser = dialog.querySelector('.xrt-target-tweet .user');
     tweetUser.textContent = `${originalTweet.user.name} (@${originalTweet.user.screenName})`;
     const tweetText = dialog.querySelector('.xrt-target-tweet .text');

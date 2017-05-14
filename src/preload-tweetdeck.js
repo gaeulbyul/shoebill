@@ -20,8 +20,11 @@ const moduleToLoad = [
   'timeline-thumbimg',
   'tweet-filter',
   'rt-dialog',
-  // 'imagepicker'
-  // 'favorite-downloader'
+  'context-menu',
+  // 'imagepicker',
+  // 'favorite-downloader',
+  // 'tweet-capture?',
+  // 'followers',
 ];
 
 function toast (message) {

@@ -73,12 +73,12 @@ const Config = {
 module.exports = {
   DEFAULT_CONFIG,
   installIPC (ipcMain) {
-    ipcMain.on('ipc.shoebill.config/request-load', (event, args) => {
+    ipcMain.on('ipc.renderer.shoebill.config/request-load', (event, args) => {
       Config.load().then(config => {
-        event.sender.send('ipcR.shoebill.config/on-load', { config });
+        event.sender.send('ipc.main.shoebill.config/on-load', { config });
       });
     });
-    ipcMain.on('ipc.shoebill.config/update-config', (event, args) => {
+    ipcMain.on('ipc.renderer.shoebill.config/update-config', (event, args) => {
       const { config } = args;
       Config.update(config);
       Config.save().then(cfg => {

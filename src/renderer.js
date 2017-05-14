@@ -85,20 +85,20 @@ class Toaster {
 
 document.addEventListener('DOMContentLoaded', () => {
   const toaster = new Toaster(document.querySelector('.toast-container'));
-  ipcRenderer.on('ipcR.shoebill.config/on-load', (event, args) => {
+  ipcRenderer.on('ipc.main.shoebill.config/on-load', (event, args) => {
     const { config } = args;
     if (config.font) {
       toaster.changeFont(config.font);
     }
   });
-  ipcRenderer.send('ipc.shoebill.config/request-load');
+  ipcRenderer.send('ipc.renderer.shoebill.config/request-load');
   const webview = document.getElementById('tweetdeck');
   webview.addEventListener('ipc-message', event => {
     const { channel, args } = event;
-    if (channel === 'ipcM.shoebill.ui/toast-message') {
+    if (channel === 'ipc.renderer.shoebill.ui/toast-message') {
       const { message } = args[0];
       toaster.toast(message);
-    } else if (channel === 'ipcM.shoebill.config/open') {
+    } else if (channel === 'ipc.renderer.shoebill.config/open') {
       createConfigWindow();
     }
   });

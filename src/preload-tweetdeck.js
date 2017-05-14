@@ -45,7 +45,7 @@ if (location.hostname === 'tweetdeck.twitter.com') {
       }
     });
   }
-  ipcRenderer.on('ipcR.shoebill.config/on-load', (event, args) => {
+  ipcRenderer.on('ipc.main.shoebill.config/on-load', (event, args) => {
     const { config } = args;
     if (config.font) {
       API.changeFont(config.font);
@@ -55,7 +55,7 @@ if (location.hostname === 'tweetdeck.twitter.com') {
     }
   });
   document.addEventListener('DOMContentLoaded', () => {
-    ipcRenderer.send('ipc.shoebill.config/request-load');
+    ipcRenderer.send('ipc.renderer.shoebill.config/request-load');
     const $ = window.$;
     for (const mod of loadedModules) {
       if ('css' in mod) {
@@ -69,7 +69,7 @@ if (location.hostname === 'tweetdeck.twitter.com') {
     });
     $(document.body).on('contextmenu', '.js-app-settings', event => {
       event.preventDefault();
-      ipcRenderer.sendToHost('ipcM.shoebill.config/open');
+      ipcRenderer.sendToHost('ipc.renderer.shoebill.config/open');
     });
     TD.controller.progressIndicator.addMessage$REAL = TD.controller.progressIndicator.addMessage;
     TD.controller.progressIndicator.addMessage = function (msg) {

@@ -23,15 +23,15 @@ const app = new Vue({
         config.filterWords = [];
       }
       config._filterWords = undefined;
-      ipcRenderer.send('ipc.shoebill.config/update-config', { config });
+      ipcRenderer.send('ipc.renderer.shoebill.config/update-config', { config });
     }, { deep: true });
-    ipcRenderer.once('ipcR.shoebill.config/on-load', (event, args) => {
+    ipcRenderer.once('ipc.main.shoebill.config/on-load', (event, args) => {
       const { config } = args;
       config._filterWords = (config.filterWords || []).map(trim).join('\n');
       this.$set(this, 'oldConfig', Object.assign({}, args.config));
       this.$set(this, 'config', config);
     });
-    ipcRenderer.send('ipc.shoebill.config/request-load');
+    ipcRenderer.send('ipc.renderer.shoebill.config/request-load');
   },
   data () {
     return {

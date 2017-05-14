@@ -88,3 +88,21 @@
   padding: 5px 0;
   border-top: 1px solid #ccc;
 }
+
+.xrt-hate-quote-notice {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #f99;
+  border-radius: 3px;
+  background-color: #ffe0e0;
+  color: #633;
+}
+
+.xrt-hate-quote-notice hr {
+  border-top: 1px solid #633;
+  border-bottom: 0;
+}
+
+.xrt-hate-quote-notice .notice {
+  font-weight: bold;
+}

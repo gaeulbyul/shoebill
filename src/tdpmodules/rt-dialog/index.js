@@ -1,5 +1,5 @@
 /* globals $, TD */
-const API = require('../../API');
+const API = require('../../api');
 
 // consider customElements API?
 // or Framework?
@@ -12,6 +12,14 @@ const DIALOG_HTML = `
     </div>
     <div class="xrt-account-select">
     </div>
+    <div class="xrt-hate-quote-notice">
+      <div class="notice">
+        해당 사용자의 프로필에 다음과 같이 명기되어있습니다.
+        (사용자에 따라 인용트윗을 싫어하거나 제한을 둘 수 있다는 점에 유의해주세요)
+      </div>
+      <hr>
+      <div class="bio"></div>
+    </div>
     <div class="xrt-bottom-buttons">
       <button class="xrt-button xrt-open-original-rt">기존 RT창 열기</button>
       <button class="xrt-button xrt-close">닫기</button>
@@ -19,7 +27,7 @@ const DIALOG_HTML = `
   </div>
 `;
 
-let config = {
+const config = {
   useAltRT: false,
 };
 
@@ -45,6 +53,15 @@ class RTDialog {
         this.close();
       }
     });
+    document.addEventListener('keydown', event => {
+      if (!this.tweet) return; // probably rt-dialog is hidden
+      const code = event.code;
+      if (code === 'Escape') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.close();
+      }
+    });
     document.body.appendChild(wrapper);
   }
   update (tweet) {
@@ -58,6 +75,11 @@ class RTDialog {
     const accountSelect = dialog.querySelector('.xrt-account-select');
     accountSelect.innerHTML = '';
     const accounts = API.getAllAccounts();
+    if (originalTweet.user.isProtected) {
+      this.close();
+      API.toastMessage('프로텍트 계정의 트윗은 리트윗할 수 없습니다.');
+      return;
+    }
     for (const account of accounts) {
       const accountItem = document.createElement('div');
       accountItem.classList.add('xrt-account');
@@ -98,6 +120,20 @@ class RTDialog {
       });
       accountSelect.appendChild(accountItem);
     }
+    {
+      const warnPattern = /인용|quote/ig;
+      const userBio = originalTweet.user.bio();
+      const hateQuote = dialog.querySelector('.xrt-hate-quote-notice');
+      const bioE = hateQuote.querySelector('.bio');
+      if (warnPattern.test(userBio)) {
+        hateQuote.style.display = 'block';
+        bioE.innerHTML = tweet.user.bio(); // or .textContent = .user.description?
+        // bioE.innerHTML = bioE.innerHTML.replace(warnPattern, q => `<strong>${q}</strong>`);
+      } else {
+        hateQuote.style.display = 'none';
+        bioE.innerHTML = '';
+      }
+    }
     this.onRTSuccess = (event, t) => {
       tweet.setRetweeted(true);
       API.toastMessage('리트윗 성공!');
@@ -120,7 +156,6 @@ class RTDialog {
   }
   show () {
     if (!this.tweet) {
-      console.error('.tweet is null');
       return;
     }
     $(document).on('dataRetweetSuccess', this.onRTSuccess);

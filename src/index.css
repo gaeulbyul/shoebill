@@ -1,0 +1,61 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+#tweetdeck {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  transition: transform .3s;
+}
+/*
+#top-bar {
+  display: none;
+  padding: 10px;
+  width: 100vw;
+  height: 100px;
+  background-color: black;
+  transform: translateY(-100px);
+}
+*/
+#bottom-bar {
+  padding: 10px;
+  width: 100vw;
+  height: 100px;
+  background-color: black;
+}
+#right-bar {
+  position: fixed;
+  right: 0px;
+  top: 0;
+  bottom: 0;
+  width: 500px;
+  background-color: #fff;
+  transform: translateX(600px);
+}
+.area-y {
+  display: inline-flex;
+  margin: 0;
+  transition: transform .3s;
+}
+.edge-bar {
+  margin: 0;
+  transition: transform .5s;
+}
+body.show-left-bar #tweetdeck,
+body.show-left-bar #left-bar {
+  transform: translateX(320px);
+}
+body.show-right-bar #right-bar {
+  transform: none;
+}
+/*
+body.show-bottom-bar #main,
+body.show-bottom-bar #bottom-bar {
+  transform: translateY(-100px);
+}
+*/

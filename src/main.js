@@ -1,4 +1,9 @@
 const electron = require('electron');
+const path = require('path');
+const URL = require('url');
+const config = require('./config');
+const Downloader = require('./downloader');
+
 const {
   app,
   shell,
@@ -6,13 +11,8 @@ const {
   ipcMain,
 } = electron;
 
-const path = require('path');
-const url = require('url');
-
-const config = require('./config');
-config.installIPC(ipcMain);
-
 app.setPath('userData', path.join(__dirname, '../data/chromium'));
+config.installIPC(ipcMain);
 
 let mainWindow;
 
@@ -21,12 +21,13 @@ function createMainWindow () {
     show: false,
     width: 800,
     height: 600,
+    title: 'Project Shoebill',
     backgroundColor: '#1c6399',
     nodeIntegration: true,
     webSecurity: false,
   });
 
-  mainWindow.loadURL(url.format({
+  mainWindow.loadURL(URL.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true,
@@ -40,6 +41,8 @@ function createMainWindow () {
     mainWindow = null;
   });
 
+  const downloader = new Downloader;
+  downloader.installIPC(ipcMain, mainWindow.webContents);
 }
 
 app.makeSingleInstance((commandLine, workingDirectory) => {
@@ -67,4 +70,3 @@ app.on('activate', () => {
     createMainWindow();
   }
 });
-

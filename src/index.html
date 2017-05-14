@@ -6,131 +6,61 @@
   href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
   crossorigin="anonymous">
-  <style>
-    *, *:before, *:after {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    #tweetdeck {
-      width: 100vw;
-      height: 100vh;
-      margin: 0;
-      transition: transform .3s;
-    }
-    /*
-    #top-bar {
-      display: none;
-      padding: 10px;
-      width: 100vw;
-      height: 100px;
-      background-color: black;
-      transform: translateY(-100px);
-    }
-    #bottom-bar {
-      padding: 10px;
-      width: 100vw;
-      height: 100px;
-      background-color: black;
-    }
-    */
-    .area-y {
-      display: inline-flex;
-      margin: 0;
-      transition: transform .3s;
-    }
-    .edge-bar {
-      margin: 0;
-      transition: transform .3s;
-    }
-    body.show-left-bar #tweetdeck,
-    body.show-left-bar #left-bar {
-      transform: translateX(320px);
-    }
-    body.show-right-bar #tweetdeck,
-    body.show-right-bar #right-bar {
-      transform: translateX(-320px);
-    }
-    body.show-bottom-bar #main,
-    body.show-bottom-bar #bottom-bar {
-      transform: translateY(-100px);
-    }
-  </style>
-  <style>
-    .toast-container {
-      position: fixed;
-      top: 10px;
-      left: 0;
-      right: 0;
-      margin: auto;
-      max-width: 600px;
-      overflow: hidden;
-    }
-    .toast {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin: 15px;
-      padding: 0;
-      background-color: #fff;
-      color: #333;
-      border-left: 10px solid cornflowerblue;
-      box-shadow: 0 5px 5px rgba(66, 66, 66, .6);
-      animation: slideDown .3s;
-    }
-    .toast > div {
-      margin: 0;
-      padding: 10px;
-    }
-    .toast .text {
-      flex: 1;
-      font-size: 12pt;
-      font-family: 'SpoqaHanSans', sans-serif;
-      word-break: keep-all;
-    }
-    .toast .close {
-      cursor: pointer;
-    }
-    .toast.hiding {
-      animation:  toastHide .3s;
-    }
-    @keyframes slideDown {
-      from {
-        transform: translateY(-300px);
-      }
-      to {
-        transform: none;
-      }
-    }
-    @keyframes toastHide {
-      from {
-        transform: scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: scale(0);
-        opacity: 0;
-        display: none;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/element-ui/1.2.9/theme-default/index.css" integrity="sha256-f8WH1nrCDsUXg+w/3pKejqK9mD1cOHC2AKUpWtZCw2E=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="mainview/toast/index.css">
+  <link rel="stylesheet" href="downloader/ui.css">
 </head><body>
-  <!--
-  <webview id="tweetdeck" preload="./preload-tweetdeck.js" src="https://tweetdeck.twitter.com"></webview>
-  <webview id="tweetdeck" src="about:blank" nodeintegration></webview>
-  -->
   <div class="area-y" id="main">
     <div class="edge-bar" id="left-bar"></div>
-      <webview id="tweetdeck" allowpopups
+      <webview id="tweetdeck"
       preload="./preload-tweetdeck.js"
       src="https://tweetdeck.twitter.com"></webview>
-    <div class="edge-bar" id="right-bar"></div>
+    <div class="edge-bar" id="right-bar">
+      <div id="downloader-ui">
+        <header>
+          <el-menu mode="horizontal" theme="dark">
+            <el-menu-item index="1">파일 다운로드</el-menu-item>
+            <el-submenu index="2">
+              <template slot="title">메뉴</template>
+              <el-menu-item index="2-1">폴더 열기</el-menu-item>
+              <el-menu-item index="2-2">완료 파일 지우기</el-menu-item>
+            </el-submenu>
+          </el-menu>
+        </header>
+        <section>
+
+          <div class="d-item" v-for="download in downloads">
+            <div class="thumbnail"></div>
+            <div class="texts">
+              <div class="filename">{{ download.filename }}</div>
+              <div class="progress">
+                <el-progress
+                :text-inside="true"
+                :stroke-width="20"
+                :percentage="download.progress.percentage">
+              </div>
+              <div class="info">
+                d:\example\sample.jpg
+              </div>
+            </div>
+            <div class="buttons">
+              <el-button type="text"  icon="close"></el-button>
+            </div>
+          </div>
+
+
+        </section>
+      </div>
+    </div>
   </div>
   <div class="area-y" id="bottom-bar">
   </div>
   <div class="toast-container">
   </div>
-  <script src="./renderer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js" integrity="sha256-y7jbBn/+Rv8oBcyldVdzrzgKWajM/ERjr4u5r3QKdNo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/element-ui/1.2.9/index.js" integrity="sha256-LYzcQtsQi8v4xrHmzogpaHUiHM6X94gEg9nozJnxgGY=" crossorigin="anonymous"></script>
+  <script src="mainview/toast/index.js"></script>
+  <script src="downloader/ui.js"></script>
+  <script src="renderer.js"></script>
 </body></html>

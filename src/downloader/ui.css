@@ -1,0 +1,19 @@
+.d-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 5px 0;
+}
+.d-item .thumbnail {
+  width: 48px;
+  height: 48px;
+  border: 1px solid orange;
+}
+.d-item .texts {
+  flex-grow: 1;
+  padding: 10px;
+}
+.d-item .progress {
+  padding: 5px 0;
+}

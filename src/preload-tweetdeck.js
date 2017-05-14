@@ -24,6 +24,9 @@ const moduleToLoad = [
   // 'favorite-downloader'
 ];
 
+function toast (message) {
+  ipcRenderer.sendToHost('ipc.renderer.shoebill.ui/toast-message', { message });
+}
 
 const loadedModules = [];
 
@@ -79,9 +82,6 @@ if (location.hostname === 'tweetdeck.twitter.com') {
   });
 }
 
-function toast (message) {
-  ipcRenderer.sendToHost('ipcM.shoebill.ui/toast-message', { message });
-}
 Object.assign(window, {
   toast,
 });

@@ -32,15 +32,14 @@ function createMainWindow () {
     slashes: true,
   }));
 
+  mainWindow.webContents.openDevTools();
+
   mainWindow.once('ready-to-show', () => mainWindow.show());
 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
 
-  mainWindow.webContents.on('new-window', (event, url) => {
-    shell.openExternal(url);
-  });
 }
 
 

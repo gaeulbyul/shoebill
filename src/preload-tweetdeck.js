@@ -7,6 +7,8 @@ const fs = require('mz/fs');
 const API = require('./api');
 const fixLogin = require('./fix-login');
 
+fixLogin(window);
+
 const moduleToLoad = [
   // 'example',
   'emojipad',
@@ -22,9 +24,8 @@ const moduleToLoad = [
   // 'favorite-downloader'
 ];
 
-const loadedModules = [];
 
-fixLogin(window);
+const loadedModules = [];
 
 if (location.hostname === 'tweetdeck.twitter.com') {
   for (const m of moduleToLoad) {
@@ -81,13 +82,6 @@ if (location.hostname === 'tweetdeck.twitter.com') {
 function toast (message) {
   ipcRenderer.sendToHost('ipcM.shoebill.ui/toast-message', { message });
 }
-
-function reloadConfig () {
-  ipcRenderer.send('ipc.shoebill.config/request-load');
-}
-
 Object.assign(window, {
   toast,
-  reloadConfig,
 });
-

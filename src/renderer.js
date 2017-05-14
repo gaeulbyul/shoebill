@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   webview.addEventListener('dom-ready', event => {
     webview.openDevTools();
-    const webContents = webview.getWebContents();
   });
 });
 

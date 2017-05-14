@@ -6,9 +6,6 @@ const config = {
 
 module.exports = {
   onDOMReady () {
-    if (config.gifAutoplay === 'default') {
-      return;
-    }
     const $body = $(document.body);
     $body
       .on('play', 'video.js-media-gif', event => {
@@ -41,6 +38,9 @@ module.exports = {
     }
     TD.ui.Column.prototype.playGifIfNotManuallyPaused$REAL = TD.ui.Column.prototype.playGifIfNotManuallyPaused;
     TD.ui.Column.prototype.playGifIfNotManuallyPaused = function (e) {
+      if (config.gifAutoplay === 'default') {
+        return this.playGifIfNotManuallyPaused$REAL(e);
+      }
       const container = this.getChirpById(e.id).find('.js-media-preview-container');
       const video = container.find('video').get(0);
       if (video && video.paused) {

@@ -5,7 +5,8 @@ module.exports = {
     node: true,
     commonjs: true,
   },
-  extends: 'eslint:recommended',
+  // extends: 'eslint:recommended',
+  extends: 'airbnb-base',
   parser: 'babel-eslint', // for better async-await parse
   rules: {
     'indent': [
@@ -87,6 +88,27 @@ module.exports = {
       'error',
       'multi-line',
       'consistent',
+    ],
+    // removed for-of restriction from airbnb-base
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'WithStatement',
+    ],
+    'no-continue': [
+      'off',
+    ],
+    'no-multi-assign': [
+      'off',
+    ],
+    'no-else-return': [
+      'warn',
+    ],
+    'no-param-reassign': [
+      'off',
+    ],
+    'func-names': [
+      'off',
     ],
   },
 };

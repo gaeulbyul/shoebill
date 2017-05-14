@@ -1,9 +1,9 @@
 /* globals TD */
-
 const electron = require('electron');
-const ipcRenderer = electron.ipcRenderer;
 const util = require('util');
 const EventEmitter = require('events').EventEmitter;
+
+const ipcRenderer = electron.ipcRenderer;
 
 function toCSSPropName (prop) {
   return prop
@@ -17,24 +17,24 @@ const API = {
     if (!rules) {
       return;
     }
-    let rules_s = '';
+    let css = '';
     if (typeof rules === 'string') {
-      rules_s = rules;
+      css = rules;
     } else if (typeof rules === 'object') {
       for (const selector of Object.keys(rules)) {
-        rules_s += `${selector}{`;
+        css += `${selector}{`;
         const styles = rules[selector];
         for (const key of Object.keys(styles)) {
           const propname = toCSSPropName(key);
           const value = styles[key].trim();
-          rules_s += `${propname}:`;
-          rules_s += `${value};`;
+          css += `${propname}:`;
+          css += `${value};`;
         }
-        rules_s += '}';
+        css += '}';
       }
     }
     const div = document.createElement('div');
-    div.innerHTML = `&shy;<style>${rules_s}</style>`;
+    div.innerHTML = `&shy;<style>${css}</style>`;
     if (document.body) {
       document.body.appendChild(div);
     } else {
@@ -75,7 +75,7 @@ const API = {
   getAllAccounts () {
     return TD.storage.accountController.getAccountsForService('twitter');
   },
-  toastMessage (template, params, messageID = null) {
+  toastMessage (template, params = null, messageID = null) {
     const message = TD.i(template, params);
     const indicator = TD.controller.progressIndicator;
     if (messageID) {

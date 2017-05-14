@@ -4,11 +4,11 @@ const ipcRenderer = electron.ipcRenderer;
 const Promise = require('bluebird');
 const path = require('path');
 const fs = require('mz/fs');
-const API = require('./API');
+const API = require('./api');
 const fixLogin = require('./fix-login');
 
 const moduleToLoad = [
-  'example',
+  // 'example',
   'emojipad',
   'imageviewer',
   'clipboard-paste',

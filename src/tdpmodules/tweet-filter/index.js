@@ -118,7 +118,7 @@ module.exports = {
       if (!builtinFilterResult) {
         return false;
       }
-      let extraFilterResult;
+      let extraFilterResult = true;
       try {
         extraFilterResult = filterTweet(tweet);
       } catch (e) {

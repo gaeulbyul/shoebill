@@ -1,8 +1,9 @@
-const url = require('url');
+const URL = require('url');
 const path = require('path');
 const electron = require('electron');
-const { ipcRenderer } = electron;
-const { BrowserWindow } = electron.remote;
+
+const { ipcRenderer, shell, remote } = electron;
+const { BrowserWindow, Menu } = remote;
 
 let configWindow;
 
@@ -22,7 +23,7 @@ function createConfigWindow () {
     webSecurity: false,
     // preload: path.join(__dirname, 'preload-mainview.js'),
   });
-  configWindow.loadURL(url.format({
+  configWindow.loadURL(URL.format({
     pathname: path.join(__dirname, 'configUI', 'index.html'),
     protocol: 'file:',
     slashes: true,
@@ -108,8 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('beforeunload', () => {
-  try {
-    configWindow.close();
-    configWindow = null;
-  } catch (e) {}
+  if (configWindow) {
+    try {
+      configWindow.close();
+    } finally {
+      configWindow = null;
+    }
+  }
 });

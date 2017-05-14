@@ -1,6 +1,6 @@
 /* globals $, TD */
 
-let config = {
+const config = {
   gifAutoplay: 'default',
 };
 
@@ -39,6 +39,7 @@ module.exports = {
           }
         });
     }
+    TD.ui.Column.prototype.playGifIfNotManuallyPaused$REAL = TD.ui.Column.prototype.playGifIfNotManuallyPaused;
     TD.ui.Column.prototype.playGifIfNotManuallyPaused = function (e) {
       const container = this.getChirpById(e.id).find('.js-media-preview-container');
       const video = container.find('video').get(0);

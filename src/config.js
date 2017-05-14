@@ -26,6 +26,7 @@ const DEFAULT_CONFIG = {
   filterUnavailableQuote: false,
   filterUnder5: false,
   filterOver10Line: false,
+  // TODO: filter should {}
 };
 // Object.seal(DEFAULT_CONFIG);
 
@@ -69,7 +70,7 @@ const Config = {
   */
 };
 
-module.exports =  {
+module.exports = {
   DEFAULT_CONFIG,
   installIPC (ipcMain) {
     ipcMain.on('ipc.shoebill.config/request-load', (event, args) => {

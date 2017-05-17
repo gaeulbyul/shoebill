@@ -131,7 +131,7 @@ class RTDialog {
       const bioE = hateQuote.querySelector('.bio');
       if (warnPattern.test(userBio)) {
         hateQuote.style.display = 'block';
-        bioE.innerHTML = tweet.user.bio(); // or .textContent = .user.description?
+        bioE.innerHTML = userBio; // or .textContent = .user.description?
         // bioE.innerHTML = bioE.innerHTML.replace(warnPattern, q => `<strong>${q}</strong>`);
       } else {
         hateQuote.style.display = 'none';

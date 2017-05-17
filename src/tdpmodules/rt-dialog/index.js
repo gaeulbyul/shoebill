@@ -121,6 +121,8 @@ class RTDialog {
       accountSelect.appendChild(accountItem);
     }
     {
+      // 사용자에 따라 인용RT를 싫어하는 경우가 있을 수 있다.
+      // 그래서 프로필에  "인용"이란 단어가 있으면 경고문을 표시하도록 함.
       const warnPattern = /인용|quote/ig;
       const userBio = originalTweet.user.bio();
       const hateQuote = dialog.querySelector('.xrt-hate-quote-notice');
@@ -201,22 +203,3 @@ const RTDialogPlugin = {
 };
 
 module.exports = RTDialogPlugin;
-
-/**************
-
-*open dialog
- TD.services.TwitterStatus.prototype.retweet = function() {
-        var e = 1 === TD.storage.accountController.getAccountsForService("twitter").length;
-        this.isRetweeted && e ? (this.setRetweeted(!1),
-        $(document).trigger("uiUndoRetweet", {
-            tweetId: this.getMainTweet().id,
-            from: this.account.getKey()
-        })) : new TD.components.ActionDialog(this)
-    }
-//this = tweet
-
-
-
-
-
-*/

@@ -1,6 +1,6 @@
 /* globals $, TD */
-const API = require('../../API');
-// 
+const API = require('../../api');
+
 module.exports = {
   onDOMReady () {
     document.addEventListener('keydown', event => {
@@ -19,7 +19,7 @@ module.exports = {
       $('.js-drawer[data-drawer=compose]').trigger('uiAccountsSelected', {
         accountKeys: [ accountKey ],
       });
-      let msgTemplate = '기본 계정을 {{name}}(@{{username}})(으)로 전환했습니다.';
+      const msgTemplate = '기본 계정을 {{name}}(@{{username}})(으)로 전환했습니다.';
       API.toastMessage(msgTemplate, defaultAccount.state);
     });
   },

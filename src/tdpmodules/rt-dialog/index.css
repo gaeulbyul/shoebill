@@ -12,6 +12,7 @@
   overflow: hidden;
   background-color: rgba(0, 0, 0, .9);
 }
+
 .xrt-dialog {
   /*
   position: fixed;
@@ -35,11 +36,13 @@
   display: none;
   opacity: 0;
 }
+
 .xrt-dialog.visible {
   display: block;
   opacity: 1;
   animation: xrtAppear .5s;
 }
+
 @keyframes xrtAppear {
   from {
     display: none;
@@ -50,14 +53,17 @@
     opacity: 1;
   }
 }
+
 .xrt-target-tweet {
   padding: 7px 10px;
   border: 1px solid #ccc;
 }
+
 .xrt-target-tweet .user {
   font-weight: bold;
   color: #000;
 }
+
 .xrt-account {
   display: flex;
   align-items: baseline;
@@ -66,9 +72,18 @@
 .xrt-account .xrt-username {
   flex-grow: 1;
 }
+
+img.xrt-profile-image {
+    width: 32px;
+    align-self: center;
+    margin: 5px;
+    border-radius: 50%;
+}
+
 .xrt-buttons {
   padding: 5px 0;
 }
+
 .xrt-button {
   margin: 3px;
   padding: 7px 10px;
@@ -76,11 +91,24 @@
   border-radius: 3px;
   background-color: #eaeaea;
   color: #333;
+  transition: background-color .3s linear;
 }
+
+.xrt-button:hover, .xrt-button:focus {
+  background-color: #ddd;
+}
+
 .xrt-button.xrt-button-rt,
 .xrt-button.xrt-open-original-rt {
   background-color: #50a5e6;
   color: #fff;
+}
+
+.xrt-button.xrt-button-rt:hover,
+.xrt-button.xrt-button-rt:focus,
+.xrt-button.xrt-open-original-rt:hover,
+.xrt-button.xrt-open-original-rt:focus {
+  background-color: #3b88c3;
 }
 
 .xrt-bottom-buttons {

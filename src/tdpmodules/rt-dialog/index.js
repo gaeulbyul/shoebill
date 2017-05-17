@@ -84,6 +84,7 @@ class RTDialog {
       const accountItem = document.createElement('div');
       accountItem.classList.add('xrt-account');
       accountItem.innerHTML = `
+        <img class="xrt-profile-image">
         <div class="xrt-username"></div>
         <div class="xrt-buttons">
           <button class="xrt-button xrt-button-rt" data-action="Retweet">
@@ -97,8 +98,9 @@ class RTDialog {
           </button>
         </div>
       `;
-      const { name, username } = account.state;
-      accountItem.querySelector('.xrt-username').textContent  = `${name} (@${username})`;
+      const { name, username, profileImageURL } = account.state;
+      accountItem.querySelector('.xrt-profile-image').src = profileImageURL;
+      accountItem.querySelector('.xrt-username').textContent = `${name} (@${username})`;
       const rtButton = accountItem.querySelector('.xrt-button-rt');
       rtButton.addEventListener('click', event => {
         $(document).trigger('uiRetweet', {

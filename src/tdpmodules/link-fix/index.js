@@ -1,10 +1,7 @@
-'use strict';
-
-function checkHangulLink (link) {
-  const fullurl = link.getAttribute('data-full-url');
-  const namuwiki = /^https?:\/\/namu\.wiki\/w\/$/.test(fullurl);
-  const rigvedawiki = /^https?:\/\/rigvedawiki\.net\/w\/$/.test(fullurl);
-  const wikipedia = /^https?:\/\/\w+\.wikipedia\.org\/wiki\/$/.test(fullurl);
+function checkHangulLink (url) {
+  const namuwiki = /^https?:\/\/namu\.wiki\/w\/$/.test(url);
+  const rigvedawiki = /^https?:\/\/rigvedawiki\.net\/w\/$/.test(url);
+  const wikipedia = /^https?:\/\/\w+\.wikipedia\.org\/wiki\/$/.test(url);
   return namuwiki || rigvedawiki || wikipedia;
 }
 
@@ -21,27 +18,18 @@ function hangulLinkFix (link) {
   */
   const postfix = link.nextSibling;
   if (postfix) {
-    const fullurl = link.getAttribute('data-full-url');
+    let fixedURL = link.getAttribute('data-full-url');
     let querystring = postfix.textContent;
     if (/^\s/.test(querystring)) return;
     querystring = querystring.split(' ')[0];
     postfix.textContent = postfix.textContent.replace(querystring, ' ');
     querystring = decodeURI(querystring);
-    let fixedURL = `${fullurl}${encodeURI(querystring)}`;
+    fixedURL += encodeURI(querystring);
     link.setAttribute('href', fixedURL);
     link.setAttribute('data-full-url', fixedURL);
     link.setAttribute('title', `${fixedURL}\n(fixed from "${querystring}")`);
     link.textContent = fixedURL;
   }
-}
-
-function linkFix (link) {
-  /*
-  t.co 링크를 원본 링크로 대체한다.
-  원본 링크주소는 link의 `data-full-url` 속성에서 가져온다.
-  */
-  const fullurl = link.getAttribute('data-full-url');
-  link.setAttribute('href', fullurl);
 }
 
 module.exports = {
@@ -53,16 +41,19 @@ module.exports = {
           if (!node.querySelectorAll) continue;
           const links = node.querySelectorAll('a.url-ext');
           for (const link of links) {
-            link.setAttribute('data-t-co-link', link.getAttribute('href'));
+            if (link.hostname !== 't.co') continue;
             if (link.hostname === 'pic.twitter.com') {
               link.remove();
               continue;
             }
-            const isHangulLink = checkHangulLink(link);
+            const fullURL = link.getAttribute('data-full-url');
+            link.setAttribute('data-t-co-link', link.getAttribute('href'));
+            const isHangulLink = checkHangulLink(fullURL);
             if (isHangulLink) {
               hangulLinkFix(link);
+            } else {
+              link.setAttribute('href', fullURL);
             }
-            linkFix(link);
           }
         }
       }

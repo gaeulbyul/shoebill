@@ -26,6 +26,17 @@ function getTweetTextWithExpandedURL (tweet) {
   return text;
 }
 
+function checkTweet (tweetE) {
+  if (!tweetE) {
+    return false;
+  }
+  if (tweetE.classList.contains('gap-chirp')) {
+    // 트윗이 아니라 "Show more" 부분
+    return false;
+  }
+  return true;
+}
+
 const contextExtractor = {
   column (columnE) {
     const columnID = columnE.getAttribute('data-column');
@@ -316,7 +327,8 @@ class ContextMenu {
       context.column = contextExtractor.column(columnE);
       const column = context.column.column;
       const tweetE = target.closest('article.js-stream-item');
-      if (tweetE) {
+      const isTweet = checkTweet(tweetE);
+      if (isTweet) {
         context.tweet = contextExtractor.tweet(tweetE, column);
         const tweet = context.tweet.tweet;
       }

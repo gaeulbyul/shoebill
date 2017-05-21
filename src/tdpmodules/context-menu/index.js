@@ -282,6 +282,15 @@ class ContextMenu {
         role: 'editMenu',
       },
     ];
+    if (context.link) {
+      menu.push({
+        label: '링크 복사',
+        click () {
+          clipboard.writeText(context.link.url);
+          API.toastMessage('링크 URL을 복사했습니다.');
+        }
+      });
+    }
     // TODO: for-of keys?
     if (context.tweet) {
       menu = menu.concat({

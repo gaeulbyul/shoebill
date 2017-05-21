@@ -268,9 +268,6 @@ class ContextMenu {
     const columnsContainer = document.querySelector('.app-columns-container');
     this.window.addEventListener('contextmenu', event => {
       const target = event.target;
-      if (!columnsContainer.contains(target)) {
-        return;
-      }
       const context = this.getContext(event);
       const menuTemplate = this.buildMenuTemplate(context);
       const menu = Menu.buildFromTemplate(menuTemplate);

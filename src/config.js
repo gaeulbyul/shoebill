@@ -17,6 +17,7 @@ const DEFAULT_CONFIG = {
   gifAutoplay: 'default',
   useThumbOnTimeline: false,
   useAltRT: false,
+  enableBadgeCountClear: false,
   filterWords: [],
   filterAsRegExp: false,
   filterApplyToUserName: false,

@@ -145,6 +145,18 @@ body {
       <el-row type="flex" justify="center">
         <el-col :span="24">
           <div class="grid-content">
+            <h1>기타 편의기능</h1>
+            <el-tooltip content="공식 클라이언트에서 제공하는 '알림 갯수'를 약 3분마다 0으로 초기화해줍니다.">
+              <el-form-item label="주기적으로 알림 읽음 표시">
+                <el-switch v-model="config.enableBadgeCountClear" on-text="" off-text=""></el-switch>
+              </el-form-item>
+            </el-tooltip>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row type="flex" justify="center">
+        <el-col :span="24">
+          <div class="grid-content">
             <h1>특수 기능</h1>
             <el-tag type="danger">미구현</el-tag>
             <br>

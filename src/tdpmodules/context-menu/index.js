@@ -14,7 +14,7 @@ const { Menu, clipboard } = remote;
 const SEPARATOR = { type: 'separator' };
 
 function getTweetTextWithExpandedURL (tweet) {
-  const urls = tweet.entities;
+  const urls = tweet.entities.urls;
   let text = tweet.text;
   if (urls.length <= 0) {
     return text;
@@ -59,12 +59,10 @@ const contextExtractor = {
     };
   },
   link (linkE) {
-    const url = linkE.href;
-    const fullURL = linkE.getAttribute('data-full-url');
+    const url = linkE.getAttribute('data-full-url');
     return {
       element: linkE,
       url,
-      fullURL,
     };
   },
   hashtag (hashtagE) {
@@ -259,7 +257,7 @@ const menuBuilder = {
         label: '다른 이름으로 저장하기... (원본 해상도)',
       },
     ];
-  }
+  },
 };
 class ContextMenu {
   constructor (window) {

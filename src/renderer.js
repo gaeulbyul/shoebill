@@ -6,7 +6,33 @@ const electron = require('electron');
 const { ipcRenderer, shell, remote } = electron;
 const { BrowserWindow, Menu } = remote;
 
+const MOBILE_BROWSER_URL = 'Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N4F26I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36';
+
 let configWindow;
+const miniWindows = [];
+
+function createMiniWindow (customOptions = {}) {
+  const defaultOptions = {
+    width: 640,
+    height: 480,
+    minWidth: 320,
+    minHeight: 240,
+  };
+  const securityOptions = {
+    nodeIntegration: false,
+    webSecurity: true,
+  };
+  const options = Object.assign({}, defaultOptions, customOptions, securityOptions);
+  const miniWindow = new BrowserWindow(options);
+  miniWindows.push(miniWindow);
+  miniWindow.once('ready-to-show', () => miniWindow.show());
+  const webContents = miniWindow.webContents;
+  webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
+  return miniWindow;
+}
 
 function createConfigWindow () {
   if (configWindow) {
@@ -35,6 +61,31 @@ function createConfigWindow () {
   });
 }
 
+function openLink (url) {
+  const parsedURL = URL.parse(url);
+  const { protocol, hostname } = parsedURL;
+  if (!(['http:', 'https:'].includes(protocol))) {
+    throw new Error('Unknown protocol!');
+  } else if (protocol === 'mailto:') {
+    shell.openExternal(url);
+    return;
+  }
+  const loadURLOptions = {
+    httpReferer: 'https://tweetdeck.twitter.com/',
+  };
+  const miniWindow = createMiniWindow();
+  if (hostname === 'mobile.twitter.com') {
+    miniWindow.loadURL(url, loadURLOptions);
+    return;
+  }
+  if (hostname === 'twitter.com') {
+    loadURLOptions.userAgent = MOBILE_BROWSER_URL;
+    miniWindow.loadURL(url, loadURLOptions);
+    return;
+  }
+  shell.openExternal(url);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const toaster = new Toaster(document.querySelector('.toast-container'));
   ipcRenderer.on('ipc.main.shoebill.config/on-load', (event, args) => {
@@ -48,17 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const webview = document.getElementById('tweetdeck');
     webview.addEventListener('new-window', event => {
       const { url, frameName } = event;
-      try {
-        const parsedURL = URL.parse(url);
-        if (!(['http:', 'https:', 'mailto:'].includes(parsedURL.protocol))) {
-          throw new Error('Unknown protocol!');
-        }
-        shell.openExternal(url);
-      } catch (e) {
-        console.error('Error on opening url "%s"', url);
-      }
+      openLink(url);
     });
     webview.addEventListener('ipc-message', event => {
+      const webContents = webview.getWebContents();
       const { channel, args } = event;
       if (channel === 'ipc.renderer.shoebill.ui/toast-message') {
         const { message } = args[0];
@@ -88,6 +132,13 @@ window.addEventListener('beforeunload', () => {
       configWindow.close();
     } finally {
       configWindow = null;
+    }
+  }
+  for (const win of miniWindows) {
+    try {
+      win.close();
+    } finally {
+      // ignore error
     }
   }
 });

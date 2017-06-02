@@ -1,5 +1,6 @@
 /* globals $, TD */
 const API = require('../../api');
+const _ = require('lodash');
 
 // consider customElements API?
 // or Framework?
@@ -71,7 +72,7 @@ class RTDialog {
     const tweetUser = dialog.querySelector('.xrt-target-tweet .user');
     tweetUser.textContent = `${originalTweet.user.name} (@${originalTweet.user.screenName})`;
     const tweetText = dialog.querySelector('.xrt-target-tweet .text');
-    tweetText.textContent = originalTweet.text;
+    tweetText.textContent = _.unescape(originalTweet.text);
     const accountSelect = dialog.querySelector('.xrt-account-select');
     accountSelect.innerHTML = '';
     const accounts = API.getAllAccounts();
@@ -181,7 +182,6 @@ class RTDialog {
     this.wrapper.style.display = 'none';
     this.dialog.classList.remove('visible');
     this.tweet = null;
-
   }
 }
 

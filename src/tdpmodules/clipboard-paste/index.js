@@ -14,7 +14,7 @@ module.exports = {
           $(document).trigger('uiComposeTweet', { type: 'tweet' });
         }
         for (const image of images) {
-          const files = [ image.getAsFile() ];
+          const files = [image.getAsFile()];
           $(document).trigger('uiFilesAdded', { files });
         }
       }

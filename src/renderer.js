@@ -8,7 +8,7 @@ const common = require('./common');
 const { ipcRenderer, shell, remote } = electron;
 const { BrowserWindow, Menu } = remote;
 
-const MOBILE_BROWSER_URL = 'Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N4F26I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36';
+const MOBILE_BROWSER_UA = 'Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N4F26I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36';
 
 const userDB = new NeDB({
   autoload: true,
@@ -86,7 +86,7 @@ function openLink (url) {
     return;
   }
   if (hostname === 'twitter.com') {
-    loadURLOptions.userAgent = MOBILE_BROWSER_URL;
+    loadURLOptions.userAgent = MOBILE_BROWSER_UA;
     miniWindow.loadURL(url, loadURLOptions);
     return;
   }

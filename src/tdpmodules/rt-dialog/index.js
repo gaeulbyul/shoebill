@@ -2,9 +2,6 @@
 const API = require('../../api');
 const _ = require('lodash');
 
-// consider customElements API?
-// or Framework?
-
 const DIALOG_HTML = `
   <div class="xrt-dialog">
     <div class="xrt-target-tweet">
@@ -55,7 +52,7 @@ class RTDialog {
       }
     });
     document.addEventListener('keydown', event => {
-      if (!this.tweet) return; // probably rt-dialog is hidden
+      if (!this.tweet) return;
       const code = event.code;
       if (code === 'Escape') {
         event.preventDefault();
@@ -106,7 +103,7 @@ class RTDialog {
       rtButton.addEventListener('click', event => {
         $(document).trigger('uiRetweet', {
           id: tweet.id,
-          from: [ account.privateState.key ],
+          from: [account.privateState.key],
         });
       });
       const cancelButton = accountItem.querySelector('.xrt-button-cancelrt');
@@ -118,7 +115,7 @@ class RTDialog {
       });
       const quoteButton = accountItem.querySelector('.xrt-button-quote');
       quoteButton.addEventListener('click', event => {
-        tweet.quoteTo([ account.privateState.key ]);
+        tweet.quoteTo([account.privateState.key]);
         this.close();
       });
       accountSelect.appendChild(accountItem);

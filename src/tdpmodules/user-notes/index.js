@@ -34,7 +34,6 @@ ipcRenderer.on('ipc.renderer.shoebill.ui/onload-user-note', (event, args) => {
   IPCBus.$emit('onload-user-note', args);
 });
 
-
 const App = Vue.extend({
   data () {
     return {
@@ -77,6 +76,7 @@ module.exports = {
       for (const mut of mutations) {
         for (const node of mut.addedNodes) {
           if (!node.className) continue;
+          if (document.getElementById('user-note-app')) continue;
           let userID;
           const userIDElement = node.querySelector('.user-id');
           if (node.matches('.user-id')) {
@@ -84,12 +84,7 @@ module.exports = {
           } else if (userIDElement) {
             userID = userIDElement.textContent.trim();
           }
-          if (!userID) {
-            continue;
-          }
-          if (document.getElementById('user-note-app')) {
-            continue;
-          }
+          if (!userID) continue;
           const appContainer = document.createElement('div');
           $('.prf-header').after(appContainer);
           const app = new App({

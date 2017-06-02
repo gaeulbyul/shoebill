@@ -73,7 +73,6 @@ const contextExtractor = {
   },
   user (userE) {
     return {
-      //element
       id: 0,
       name: '',
       nickName: '',
@@ -288,7 +287,7 @@ class ContextMenu {
         click () {
           clipboard.writeText(context.link.url);
           API.toastMessage('링크 URL을 복사했습니다.');
-        }
+        },
       });
     }
     // TODO: for-of keys?

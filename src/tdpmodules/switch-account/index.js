@@ -13,8 +13,6 @@ module.exports = {
       const defaultAccount = accounts[key];
       if (!defaultAccount) return;
       const accountKey = `twitter:${defaultAccount.state.userId}`;
-      // let msgTemplate = 'Switching Account to {{name}} (@{{username}})...';
-      // const mID = API.toastMessage(msgTemplate, { name, username });
       TD.storage.accountController.setDefault(accountKey);
       $('.js-drawer[data-drawer=compose]').trigger('uiAccountsSelected', {
         accountKeys: [ accountKey ],

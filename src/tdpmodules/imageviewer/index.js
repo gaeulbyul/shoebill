@@ -118,7 +118,7 @@ class TDPImageViewer {
   }
 }
 
-let config = {
+const config = {
   useImageViewer: true,
   imageViewerSize: 'small',
 };

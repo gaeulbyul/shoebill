@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const { channel, args } = event;
     });
     twebview.addEventListener('dom-ready', event => {
-      twebview.openDevTools();
+      // twebview.openDevTools();
     });
   }
 });

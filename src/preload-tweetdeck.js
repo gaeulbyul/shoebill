@@ -24,7 +24,6 @@ const moduleToLoad = [
   'badge-clear',
   // 'imagepicker',
   // 'favorite-downloader',
-  // 'tweet-capture?',
   // 'followers',
 ];
 

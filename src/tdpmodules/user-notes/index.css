@@ -1,0 +1,17 @@
+#user-note-app {
+  padding: 3px;
+  font-size: 12pt;
+  background-color: #e1e8ed;
+  color: #292f33;
+}
+
+.user-note-area {
+  height: 80px;
+}
+
+.xun-note {
+  border: 1px solid #999;
+  border-radius: 5px;
+  background-color: #e1e8ed;
+  color: #292f33;
+}

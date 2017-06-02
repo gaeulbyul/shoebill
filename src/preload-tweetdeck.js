@@ -22,6 +22,7 @@ const moduleToLoad = [
   'rt-dialog',
   'context-menu',
   'badge-clear',
+  'user-notes',
   // 'imagepicker',
   // 'favorite-downloader',
   // 'followers',
@@ -88,4 +89,3 @@ if (location.hostname === 'tweetdeck.twitter.com') {
 Object.assign(window, {
   toast,
 });
-

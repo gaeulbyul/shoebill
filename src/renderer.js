@@ -2,11 +2,18 @@
 const URL = require('url');
 const path = require('path');
 const electron = require('electron');
+const NeDB = require('nedb');
+const common = require('./common');
 
 const { ipcRenderer, shell, remote } = electron;
 const { BrowserWindow, Menu } = remote;
 
 const MOBILE_BROWSER_URL = 'Mozilla/5.0 (Linux; Android 7.1.1; Nexus 5X Build/N4F26I) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36';
+
+const userDB = new NeDB({
+  autoload: true,
+  filename: path.join(common.CONFIG_PATH, 'user.db'),
+});
 
 let configWindow;
 const miniWindows = [];
@@ -109,6 +116,26 @@ document.addEventListener('DOMContentLoaded', () => {
         toaster.toast(message);
       } else if (channel === 'ipc.renderer.shoebill.config/open') {
         createConfigWindow();
+      } else if (channel === 'ipc.renderer.shoebill.ui/load-user-note') {
+        const { id } = args[0];
+        userDB.findOne({ id }, (err, user) => {
+          const note = (user && user.note) ? user.note : '';
+          webContents.send('ipc.renderer.shoebill.ui/onload-user-note', {
+            id,
+            note,
+          });
+        });
+      } else if (channel === 'ipc.renderer.shoebill.ui/update-user-note') {
+        const { id, note } = args[0];
+        userDB.update({ id }, {
+          $set: { note },
+        }, {
+          upsert: true,
+        }, err => {
+          if (err) {
+            console.error(err);
+          }
+        });
       }
     });
     webview.addEventListener('dom-ready', event => {

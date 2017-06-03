@@ -27,31 +27,31 @@
   background-color: #000;
   margin: auto;
   max-width: 100%;
-  transition: filter .3s;
-  will-change: filter;
-}
-.tiv-image.loading {
-  filter: saturate(50%) brightness(50%);
 }
 .tiv-toolbar {
+  display: flex;
+  align-items: baseline;
   padding: 5px;
-  clear: both;
   z-index: 9999;
   background-color: rgba(0, 0, 0, .8);
   -webkit-user-select: none;
   user-select: none;
 }
 .tiv-btngroup-left {
-  float: left;
+}
+.tiv-title {
+  flex-grow: 1;
+  padding: 5px;
+  text-align: center;
+  font-size: 12pt;
 }
 .tiv-btngroup-right {
-  float: right;
 }
 .tiv-button {
   display: inline-block;
   margin: 0 5px;
   padding: 5px 15px;
-  width: 120px;
+  width: 100px;
   border-radius: 5px;
   border: 1px solid #666;
   background-color: #333;

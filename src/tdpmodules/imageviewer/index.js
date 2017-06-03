@@ -1,10 +1,11 @@
 const electron = require('electron');
-const ipcRenderer = electron.ipcRenderer;
-const url = require('url');
+const URL = require('url');
 const path = require('path');
 const API = require('../../api');
 
-const NEXT_CURSOR_PATH = url.format({
+const ipcRenderer = electron.ipcRenderer;
+
+const NEXT_CURSOR_PATH = URL.format({
   pathname: path.join(__dirname, 'cursor-next.svg'),
   protocol: 'file:',
   slashes: true,
@@ -19,6 +20,8 @@ const VIEWER_HTML = `
       <button class="tiv-button tiv-btn-next">
         Next
       </button>
+    </div>
+    <div class="tiv-title">
     </div>
     <div class="tiv-btngroup-right">
       <button class="tiv-button tiv-btn-close">
@@ -48,6 +51,7 @@ class TDPImageViewer {
     const wrapper = this.wrapper = viewer.querySelector('.tiv-imagewrapper');
     const image = this.image = viewer.querySelector('img.tiv-image');
     const toolbar = this.toolbar = viewer.querySelector('.tiv-toolbar');
+    const title = this.title = viewer.querySelector('.tiv-title');
     viewer.addEventListener('click', event => {
       event.stopPropagation();
       if (wrapper.isSameNode(event.target)) {
@@ -55,7 +59,7 @@ class TDPImageViewer {
       }
     });
     image.addEventListener('load', event => {
-      image.classList.remove('loading');
+      title.textContent = '';
     });
     image.addEventListener('click', event => {
       this.circleNext();
@@ -79,9 +83,9 @@ class TDPImageViewer {
     document.body.appendChild(viewer);
   }
   update () {
-    const {images, index} = this;
+    const { images, index, title } = this;
     const length = images.length;
-    this.image.classList.add('loading');
+    title.textContent = '로딩중...';
     this.image.src = images[index].url;
     this.wrapper.scrollTop = 0;
     const prev = this.toolbar.querySelector('.tiv-btn-prev');
@@ -108,7 +112,7 @@ class TDPImageViewer {
     }
   }
   show () {
-    const {images} = this;
+    const { images } = this;
     this.viewer.style.display = 'flex';
     const hasMultipleImages = images.length > 1;
     this.image.classList.toggle('click-enabled', hasMultipleImages);

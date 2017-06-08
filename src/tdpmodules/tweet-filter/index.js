@@ -1,5 +1,5 @@
 /* global $, TD */
-const API = require('../../API');
+const API = require('../../api');
 
 const config = {
   filterWords: [],
@@ -103,6 +103,12 @@ function filterTweet (originalTweet) {
   }
   if (config.filterUnder5 && tweet.text.length <= 5) {
     return false;
+  }
+  if (config.filterOver10Line) {
+    const over10Line = (tweet.text.match(/\n/g) || []).length + 1 > 10;
+    if (over10Line) {
+      return false;
+    }
   }
   return true;
 }
